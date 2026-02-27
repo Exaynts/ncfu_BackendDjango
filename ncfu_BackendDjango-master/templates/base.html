@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <title>{% block title %} Новости со всего мира {% endblock %}</title>
+    <style>
+        h1 {font-style: italic;}
+        .navbar-nav .nav-link, .navbar-brand {
+            color: #f55 !important;}
+        .navbar-nav .nav-link:hover, .navbar-brand:hover {
+            color: #f00 !important;
+            transition: 0.5s;
+            transform: scale(1.05);}
+        .card {
+            border: 2px solid #000;
+            border-radius: 20px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            background-color: #f9f9f9;
+            height: 100%;
+        }
+        .card-header {
+           background-color: #f88;
+           margin-bottom: 20px;
+        }
+        .card-footer {
+           background-color: #f88;
+        }
+        .category-name {
+            color: #fff;
+            font-weight: 700;
+        }
+        .short-text {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+        .d-none {
+            display: none !important;
+        }
+        .d-block {
+            display: block !important;
+        }
+
+        /* Медиазапросы для адаптимости отображения */
+        .media {
+        flex-wrap: wrap;
+        }
+        .media > img {
+            flex: 0 0 200px;   /* минимальная ширина изображения – 200px */
+            margin-right: 1rem;
+        }
+        .media-body {
+            flex: 1 1 250px;   /* минимальная ширина текста – 250px */
+        }
+    </style>
+</head>
+<body>
+     {% load news_tags %}
+
+    {% include 'inc/_nav.html' %}
+
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <div class="col-md-3">
+                {% block sidebar %}
+                    {% show_categories %}
+                {% endblock %}
+            </div>
+            <div class="col-md-9">
+                {% block content %} {% endblock %}
+            </div>
+        </div>
+    </div>
+     <!-- Скрипт для работы кнопок -->
+    <script>
+        function toggleText(itemId) {
+            const shortText = document.getElementById('short-text-' + itemId);
+            const fullText = document.getElementById('full-text-' + itemId);
+            const button = document.querySelector(`button[onclick="toggleText(${itemId})"]`);
+
+            shortText.classList.toggle('d-none');
+            fullText.classList.toggle('d-none');
+
+            if (shortText.classList.contains('d-none')) {
+                button.textContent = 'Свернуть текст';
+            } else {
+                button.textContent = 'Прочесть больше';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load news_tags %}
+
+{% block title %}
+    {{ title }} :: {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    <div class="row">   <!-- Добавлено: открывающий тег сетки -->
+        {% for news_item in news %}
+            <div class="col-md-6 mb-4">   <!-- Добавлено: колонка на 2 блока в ряд -->
+                <div class="card h-100">   <!-- Класс h-100 для выравнивания высоты карточек -->
+                    <div class="card-header">
+                        Категория: <a href="{% url 'category' news_item.category.pk %}" class="category-name">{{ news_item.category }}</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="media">
+                            {% if news_item.photo %}
+                                <img src="{{ news_item.photo.url }}" alt="" width="350" class="img-fluid mb-3 mb-sm-0 mr-sm-3">
+                            {% else %}
+                                <img src="https://picsum.photos/id/1060/350/235/?blur=2" alt="" class="img-fluid mb-3 mb-sm-0 mr-sm-3">
+                            {% endif %}
+                            <div class="media-body">
+                                <h5 class="card-title {% cycle 'text-danger' 'text-success' %}">{{ news_item.title }}</h5>
+
+                                <!-- Обрезанный текст -->
+                                <div id="short-text-{{ forloop.counter }}" class="card-text short-text d-block">
+                                    {{ news_item.content|safe|linebreaks|truncatewords:50 }}
+                                </div>
+
+                                <!-- Полный текст -->
+                                <div id="full-text-{{ forloop.counter }}" class="card-text full-text d-none">
+                                    {{ news_item.content|safe|linebreaks }}
+                                </div>
+
+                                <!-- Кнопка переключения текста -->
+                                <button onclick="toggleText({{ forloop.counter }})" class="btn btn-primary" style="background-color: #f55;">
+                                    Прочесть больше
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-muted">
+                        {{ news_item.created_at|date:"Y-m-d H:i:s" }}
+                    </div>
+                </div>
+            </div>   <!-- Закрытие колонки -->
+        {% endfor %}
+    </div>   <!-- Закрытие сетки row -->
+
+    <script>
+        function toggleText(itemId) {
+            const shortText = document.getElementById('short-text-' + itemId);
+            const fullText = document.getElementById('full-text-' + itemId);
+            const button = document.querySelector(`button[onclick="toggleText(${itemId})"]`);
+
+            shortText.classList.toggle('d-none');
+            fullText.classList.toggle('d-none');
+
+            if (shortText.classList.contains('d-none')) {
+                button.textContent = 'Свернуть текст';
+            } else {
+                button.textContent = 'Прочесть больше';
+            }
+        }
+    </script>
+{% endblock %}

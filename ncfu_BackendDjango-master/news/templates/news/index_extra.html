@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+
+{% block sidebar %}
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <title>{{ title }}</title>
+    <style>
+        h1 {font-style: italic;}
+        .card {
+            border: 2px solid #000;
+            border-radius: 20px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            background-color: #f9f9f9;
+            height: 100%;
+        }
+        .card-header {
+           background-color: #f88;
+        }
+        .card-footer {
+           background-color: #f88;
+        }
+        .container-90 {
+            width: 90%;
+            max-width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+        .category-name {
+            color: #fff;
+            font-weight: 700;
+        }
+        .short-text {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+        .d-none {
+            display: none !important;
+        }
+        .d-block {
+            display: block !important;
+        }
+
+        /* Медиазапросы для адаптимости отображения */
+        .media {
+        flex-wrap: wrap;
+        }
+        .media > img {
+            flex: 0 0 200px;   /* минимальная ширина изображения – 200px */
+            margin-right: 1rem;
+        }
+        .media-body {
+            flex: 1 1 250px;   /* минимальная ширина текста – 250px */
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{% url 'home' %}">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">На главную</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Добавить ещё новость</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container-90 mt-3">
+    <h1>{{ title }}</h1>
+    {% now 'Y-m-d H:i:s' %}
+    <div class="row">
+        <!-- Сайдбар с категориями -->
+        <div class="col-md-3">
+            <div class="list-group">
+                {% for item in categories %}
+                    <a href="{% url 'category' item.pk %}" class="list-group-item list-group-item-action">{{ item.title }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- Контент с новостями -->
+        <div class="col-md-9">
+            <div class="row">
+                {% for news_item in news %}
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            Категория: <a href="{% url 'category' news_item.category.pk %}" class="category-name">{{ news_item.category }}</a>
+                        </div>
+                        <div class="card-body">
+                            <div class="media">
+                                {% if news_item.photo %}
+                                <img src="{{ news_item.photo.url }}" alt="" width="350" class="img-fluid mb-3 mb-sm-0 mr-sm-3">
+                                {% else %}
+                                <img src="https://picsum.photos/id/1060/350/235/?blur=2" alt="" class="img-fluid mb-3 mb-sm-0 mr-sm-3">
+                                {% endif %}
+                                <div class="media-body">
+                                    <h5 class="card-title {% cycle 'text-danger' 'text-success' %}">{{ news_item.title }}</h5>
+
+                                    <!-- Обрезанный текст -->
+                                    <div id="short-text-{{ forloop.counter }}" class="card-text short-text d-block">
+                                        {{ news_item.content|safe|linebreaks|truncatewords:50 }}
+                                    </div>
+
+                                    <!-- Полный текст -->
+                                    <div id="full-text-{{ forloop.counter }}" class="card-text full-text d-none">
+                                        {{ news_item.content|safe|linebreaks }}
+                                    </div>
+
+                                    <!-- Кнопка переключения текста -->
+                                    <button onclick="toggleText({{ forloop.counter }})" class="btn btn-primary" style="background-color: #f55;">
+                                        Прочесть больше
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-muted">
+                            {{ news_item.created_at|date:"Y-m-d H:i:s" }}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+<script>
+    function toggleText(itemId) {
+        const shortText = document.getElementById('short-text-' + itemId);
+        const fullText = document.getElementById('full-text-' + itemId);
+        const button = document.querySelector(`button[onclick="toggleText(${itemId})"]`);
+
+        shortText.classList.toggle('d-none');
+        fullText.classList.toggle('d-none');
+
+        if (shortText.classList.contains('d-none')) {
+            button.textContent = 'Свернуть текст';
+        } else {
+            button.textContent = 'Прочесть больше';
+        }
+    }
+</script>
+</body>
+</html>
