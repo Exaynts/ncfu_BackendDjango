@@ -24,4 +24,6 @@ def test(request):
     print(dir(request))
     return HttpResponse('It is test page')
 
+def root_page(request):
+    return render(request, 'root.html')
 

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% block content %}
+    <div class="jumbotron">
+        <h1 class="display-4">Добро пожаловать на сайт хороших новостей!</h1>
+        <p class="lead">Выберите раздел:</p>
+        <hr class="my-4">
+        <a class="btn btn-primary btn-lg" href="{% url 'home' %}" style="background-color: #f55; border-color: #f55;">Перейти к новостям</a>
+        <a class="btn btn-secondary btn-lg" href="/admin/">Админ-панель</a>
+    </div>
+{% endblock %}

@@ -6,10 +6,10 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row">   <!-- Добавлено: открывающий тег сетки -->
+    <div class="row">
         {% for news_item in news %}
-            <div class="col-md-6 mb-4">   <!-- Добавлено: колонка на 2 блока в ряд -->
-                <div class="card h-100">   <!-- Класс h-100 для выравнивания высоты карточек -->
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
                     <div class="card-header">
                         Категория: <a href="{% url 'category' news_item.category.pk %}" class="category-name">{{ news_item.category }}</a>
                     </div>
@@ -17,8 +17,8 @@
                         <div class="media">
                             {% if news_item.photo %}
                                 <img src="{{ news_item.photo.url }}" alt="" width="350" class="img-fluid mb-3 mb-sm-0 mr-sm-3">
-                            {% else %}
-                                <img src="https://picsum.photos/id/1060/350/235/?blur=2" alt="" class="img-fluid mb-3 mb-sm-0 mr-sm-3">
+                            {% else %} <!-- Если фото для новости нет -->
+                                <img src="https://i.ibb.co/fYzs5N34/empty.jpg" alt="" class="img-fluid mb-3 mb-sm-0 mr-sm-3">
                             {% endif %}
                             <div class="media-body">
                                 <h5 class="card-title {% cycle 'text-danger' 'text-success' %}">{{ news_item.title }}</h5>
@@ -44,9 +44,9 @@
                         {{ news_item.created_at|date:"Y-m-d H:i:s" }}
                     </div>
                 </div>
-            </div>   <!-- Закрытие колонки -->
+            </div>
         {% endfor %}
-    </div>   <!-- Закрытие сетки row -->
+    </div>
 
     <script>
         function toggleText(itemId) {
