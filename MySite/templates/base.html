@@ -5,7 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/general.css' %}">
+
+    {% block extra_css %}{% endblock %}
+
     <title>{% block title %} Новости со всего мира {% endblock %}</title>
     <style>
         h1 {font-style: italic;}
