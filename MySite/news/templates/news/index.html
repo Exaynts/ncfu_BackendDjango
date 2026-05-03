@@ -22,7 +22,7 @@
                             {% if news_item.photo %}
                                 <img src="{{ news_item.photo.url }}" alt="" width="350" class="img-fluid mb-3 mb-sm-0 mr-sm-3">
                             {% else %} <!-- Если фото для новости нет -->
-                                <img src="https://i.ibb.co/fYzs5N34/empty.jpg" alt="" class="img-fluid mb-3 mb-sm-0 mr-sm-3">
+                                <img src="https://i.ibb.co/fYzs5N34/empty.jpg" alt="" class="img-fluid mb-3 mb-sm-0 mr-sm-3" style="max-height: 240px">
                             {% endif %}
                             <div class="media-body">
                                 <h5 class="card-title {% cycle 'text-danger' 'text-success' %}">{{ news_item.title }}</h5>
@@ -44,8 +44,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer text-muted">
-                        {{ news_item.created_at|date:"Y-m-d H:i:s" }}
+                    <div class="card-footer text-muted d-flex justify-content-between align-items-center">
+                        <span>{{ news_item.created_at|date:"Y-m-d H:i:s" }}</span>
+                        <span>Автор:
+                            {% if news_item.author %}
+                                "{{ news_item.author }}"
+                            {% else %}
+                                Неизвестен
+                            {% endif %}
+                        </span>
                     </div>
                 </div>
             </div>

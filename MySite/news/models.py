@@ -20,9 +20,10 @@ class News(models.Model):
     created_at = models.DateTimeField(auto_now_add = True, verbose_name = 'Дата публикации')
     updated_at = models.DateTimeField(auto_now = True, verbose_name = 'Обновлено')
     photo = models.ImageField(upload_to = 'photos/%Y/%m/%d', verbose_name = 'Фоточка', blank=True)
-    is_published = models.BooleanField(default = True, verbose_name = 'Опубликировано')
+    is_published = models.BooleanField(default = True, verbose_name = 'Опубликовано')
     # Объединяем новости в категорию и защищаем их от удаления и позволяем иметь пустые поля,
-    category = models.ForeignKey(Category, on_delete = models.PROTECT, null = True, verbose_name='Кагерогюшка')
+    category = models.ForeignKey(Category, on_delete = models.PROTECT, null = True, verbose_name='Категория')
+    author = models.CharField(max_length=100, blank=True, null=True, verbose_name='Автор')
 
     def __str__(self):
         return self.title
