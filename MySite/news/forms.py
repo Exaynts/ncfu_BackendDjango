@@ -9,9 +9,9 @@ def validate_title_not_start_with_digit(value):
 
 def validate_author_name_length(value):
     if value and len(value.strip()) < 3:
-        raise ValidationError('Имя автора слишком короткое')
+        raise ValidationError('Имя автора слишком короткое. Длина имени должна быть больше двух букв!')
     elif value and len(value.strip()) > 100:
-        raise ValidationError('Имя автора слишком длинное')
+        raise ValidationError('Имя автора слишком длинное. Длина имени должна быть не более ста букв!')
     elif value and 'Неизвестен' in value:
         raise ValidationError('Пожалуйста, не включайте в название автора слово "Неизвестен"!')
 
