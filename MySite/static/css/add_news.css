@@ -1,9 +1,0 @@
-button.btn-add-news {
-    background-color: rgb(255, 85, 85, 0.8);
-    border-color: rgb(255, 85, 85);
-}
-
-button.btn-add-news:hover {
-    background-color: rgb(255, 0, 0, 0.8);
-    border-color: rgb(255, 0, 0);
-}
