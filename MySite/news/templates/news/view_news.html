@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 {% load news_tags %}
+{% load static %}
+
+{% block extra_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/add_news.css' %}">
+{% endblock %}
 
 {% block title %}
     {{ news_item.title }} :: {{ block.super }}
@@ -13,8 +19,14 @@
     <div class="row">
         <div class="col-md-12 mb-4">
             <div class="card h-100">
-                <div class="card-header">
-                    Категория: <a href="{{ news_item.category.get_absolute_url }}" class="category-name">{{ news_item.category }}</a>
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Категория: <a href="{{ news_item.category.get_absolute_url }}" class="category-name">{{ news_item.category }}</a></span>
+                    {% if user.is_authenticated and user.username == news_item.author %}
+                    <div class="news_options">
+                        <a href="{% url 'update_news' news_item.pk %}" class="btn btn-sm brand-color">Редактировать</a>
+                        <a href="{% url 'delete_news' news_item.pk %}" class="btn btn-sm brand-color">Удалить</a>
+                    </div>
+                    {% endif %}
                 </div>
                 <div class="card-body">
                     <div class="media">
@@ -31,8 +43,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-footer text-muted">
-                    {{ news_item.created_at|date:"Y-m-d H:i:s" }}
+                <div class="card-footer text-muted d-flex justify-content-between align-items-center">
+                    <span>{{ news_item.created_at|date:"Y-m-d H:i:s" }}</span>
+                    <span>Автор:
+                        {% if news_item.author %}
+                            "{{ news_item.author }}"
+                        {% else %}
+                            Неизвестен
+                        {% endif %}
+                    </span>
                 </div>
             </div>
         </div>

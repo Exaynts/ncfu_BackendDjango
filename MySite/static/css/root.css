@@ -1,0 +1,29 @@
+body {
+    background-color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+}
+.jumbotron {
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+}
+.btn-primary {
+    background-color: #f55 !important;
+    border-color: #f55 !important;
+}
+.btn-primary:hover {
+    background-color: #f00 !important;
+    border-color: #f00 !important;
+}
+.btn-secondary {
+    background-color: #6c757d;
+}

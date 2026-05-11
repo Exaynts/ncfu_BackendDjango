@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Удаление новости :: {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                Удаление новости
+            </div>
+            <div class="card-body">
+                <p>Вы уверены, что хотите удалить новость <strong>"{{ news.title }}"</strong>?</p>
+                <p>Это действие нельзя отменить.</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Да, удалить</button>
+                    <a href="{{ news.get_absolute_url }}" class="btn btn-secondary">Отмена</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
