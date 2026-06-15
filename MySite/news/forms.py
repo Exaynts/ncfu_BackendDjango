@@ -4,6 +4,7 @@ from .models import News
 import os
 from better_profanity import profanity
 from django.conf import settings
+from captcha.fields import CaptchaField
 
 # Загрузка стандартного словаря
 profanity.load_censor_words()
@@ -71,3 +72,10 @@ class NewsModelForm(forms.ModelForm):
         if profanity.contains_profanity(content):
             raise ValidationError('Не выражайтесь в описании новости!')
         return content
+
+
+class ContactForm(forms.Form):
+    name = forms.CharField(max_length=100, label='Ваше имя')
+    email = forms.EmailField(label='Email')
+    message = forms.CharField(widget=forms.Textarea, label='Сообщение')
+    captcha = CaptchaField(label='Код проверки')

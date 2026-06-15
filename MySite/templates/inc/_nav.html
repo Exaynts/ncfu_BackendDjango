@@ -7,9 +7,16 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'home' %}">Главная</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'contact' %}">Обратная связь</a>
+            </li>
+
             {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'add_news' %}">Добавить новость</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'user_news' %}">Мои новости</a>
                 </li>
             {% endif %}
         </ul>

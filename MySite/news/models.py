@@ -38,6 +38,7 @@ class News(models.Model):
     is_published = models.BooleanField(default=True, verbose_name='Опубликовано')
     category = models.ForeignKey(Category, on_delete=models.PROTECT, null=True, verbose_name='Категория')
     author = models.CharField(max_length=100, blank=True, null=True, verbose_name='Автор')
+    views = models.IntegerField(default=0)
 
 
     objects = models.Manager()

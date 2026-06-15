@@ -3,8 +3,9 @@
         {{ arg1 }} {{ arg2 }}
     </div>
     {% for category in categories %}
-    <a href="{{category.get_absolute_url}}" class="list-group-item list-group-item-action">
+    <a href="{{ category.get_absolute_url }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
         {{ category.title }}
+        <span class="badge brand-color rounded-pill">{{ category.cnt }}</span>
     </a>
     {% endfor %}
 </div>

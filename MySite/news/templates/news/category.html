@@ -1,7 +1,11 @@
 {% extends 'news/news_list.html' %}
 
 {% block title %}
-    {{ category.title }} :: {{ block.super }}
+    {{ upper_category_title }} :: {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    <p>Значение переменной: {{ upper_category_title|default:"НЕТ ЗНАЧЕНИЯ" }}</p>
 {% endblock %}
 
 {% block empty_message %}
